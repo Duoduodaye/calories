@@ -1,0 +1,48 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/record/record",
+    "pages/stats/stats",
+    "pages/profile/profile"
+  ],
+  "window": {
+    "backgroundTextStyle": "dark",
+    "navigationBarBackgroundColor": "#9CAF88",
+    "navigationBarTitleText": "热量记录小助手",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f5f5"
+  },
+  "tabBar": {
+    "color": "#666",
+    "selectedColor": "#9CAF88",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "今日",
+        "iconPath": "images/home.png",
+        "selectedIconPath": "images/home-active.png"
+      },
+      {
+        "pagePath": "pages/record/record",
+        "text": "记录",
+        "iconPath": "images/add.png",
+        "selectedIconPath": "images/add-active.png"
+      },
+      {
+        "pagePath": "pages/stats/stats",
+        "text": "统计",
+        "iconPath": "images/chart.png",
+        "selectedIconPath": "images/chart-active.png"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的",
+        "iconPath": "images/profile.png",
+        "selectedIconPath": "images/profile-active.png"
+      }
+    ]
+  },
+  "sitemapLocation": "sitemap.json"
+}

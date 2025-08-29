@@ -1,0 +1,261 @@
+/* pages/index/index.wxss */
+
+.calorie-summary {
+  text-align: center;
+  padding: 20rpx 0;
+}
+
+.calorie-main {
+  margin-bottom: 16rpx;
+}
+
+.calorie-current {
+  font-size: 48rpx;
+  font-weight: bold;
+  color: #9CAF88;
+}
+
+.calorie-unit {
+  font-size: 32rpx;
+  color: #666;
+}
+
+.calorie-status {
+  font-size: 28rpx;
+}
+
+.meal-overview {
+  margin-top: 20rpx;
+}
+
+.meal-card {
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.meal-card:hover {
+  transform: translateY(-2rpx);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
+}
+
+.meal-info {
+  flex: 1;
+}
+
+.meal-name {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  display: block;
+  margin-bottom: 8rpx;
+}
+
+.meal-calories {
+  font-size: 28rpx;
+  color: #9CAF88;
+}
+
+.meal-action {
+  width: 60rpx;
+  height: 60rpx;
+  background: #f5f5f5;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-icon {
+  font-size: 36rpx;
+  color: #999;
+}
+
+.food-list {
+  border-top: 1rpx solid #f0f0f0;
+  padding-top: 16rpx;
+}
+
+.food-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8rpx 0;
+  font-size: 26rpx;
+}
+
+.food-name {
+  flex: 1;
+  color: #666;
+}
+
+.food-weight {
+  margin: 0 20rpx;
+  color: #999;
+}
+
+.food-calories {
+  color: #9CAF88;
+  min-width: 80rpx;
+  text-align: right;
+}
+
+.empty-meal {
+  text-align: center;
+  padding: 20rpx 0;
+  border-top: 1rpx solid #f0f0f0;
+  margin-top: 16rpx;
+}
+
+.quick-add {
+  position: fixed;
+  bottom: 120rpx;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.quick-add button {
+  padding: 24rpx 48rpx;
+  border-radius: 50rpx;
+  box-shadow: 0 4rpx 12rpx rgba(33, 150, 243, 0.3);
+}
+
+/* 加餐样式 */
+.snack-meal {
+  border-left: 4rpx solid #FF9800;
+  background: linear-gradient(135deg, #fff9f0 0%, #ffffff 100%);
+}
+
+.main-meal {
+  border-left: 4rpx solid #9CAF88;
+}
+
+.snack-label {
+  margin-top: 4rpx;
+}
+
+.snack-tag {
+  background: #FF9800;
+  color: white;
+  padding: 2rpx 8rpx;
+  border-radius: 8rpx;
+  font-size: 20rpx;
+}
+
+/* 热量详细信息 */
+.calorie-details {
+  display: flex;
+  justify-content: space-around;
+  background: #f8f9fa;
+  border-radius: 12rpx;
+  padding: 16rpx;
+  margin: 12rpx 0;
+}
+
+.calorie-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.calorie-item.balance {
+  border-left: 1rpx solid #dee2e6;
+  border-right: 1rpx solid #dee2e6;
+}
+
+.calorie-label {
+  font-size: 24rpx;
+  color: #6c757d;
+  margin-bottom: 4rpx;
+}
+
+.calorie-value {
+  font-size: 28rpx;
+  font-weight: bold;
+}
+
+.calorie-value.intake {
+  color: #28a745;
+}
+
+.calorie-value.burn {
+  color: #dc3545;
+}
+
+.calorie-value.positive {
+  color: #fd7e14;
+}
+
+.calorie-value.negative {
+  color: #20c997;
+}
+
+/* 运动概览 */
+.exercise-overview {
+  border-left: 4rpx solid #28a745;
+  background: linear-gradient(135deg, #f0fff4 0%, #ffffff 100%);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.exercise-overview:hover {
+  transform: translateY(-2rpx);
+  box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.15);
+}
+
+.exercise-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.exercise-total {
+  font-size: 28rpx;
+  color: #28a745;
+  font-weight: 600;
+}
+
+.exercise-list {
+  border-top: 1rpx solid #f0f0f0;
+  padding-top: 12rpx;
+}
+
+.exercise-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8rpx 0;
+  font-size: 26rpx;
+}
+
+.exercise-icon {
+  font-size: 32rpx;
+  margin-right: 12rpx;
+}
+
+.exercise-name {
+  flex: 1;
+  color: #666;
+}
+
+.exercise-duration {
+  margin: 0 12rpx;
+  color: #999;
+  font-size: 24rpx;
+}
+
+.exercise-calories {
+  color: #28a745;
+  min-width: 80rpx;
+  text-align: right;
+  font-weight: 600;
+}
+
+.empty-exercise {
+  text-align: center;
+  padding: 20rpx 0;
+  border-top: 1rpx solid #f0f0f0;
+  margin-top: 12rpx;
+}

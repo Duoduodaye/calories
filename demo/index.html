@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>热量记录小助手 - 网页演示</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="phone-container">
+        <!-- 手机框架 -->
+        <div class="phone-frame">
+            <!-- 状态栏 -->
+            <div class="status-bar">
+                <span class="time">9:41</span>
+                <div class="status-icons">
+                    <span class="signal">📶</span>
+                    <span class="battery">🔋</span>
+                </div>
+            </div>
+            
+            <!-- 导航栏 -->
+            <div class="nav-bar">
+                <h1>热量记录小助手</h1>
+            </div>
+            
+            <!-- 页面内容容器 -->
+            <div class="page-container" id="pageContainer">
+                <!-- 首页内容 -->
+                <div class="page active" id="homePage">
+                    <!-- 日期显示 -->
+                    <div class="card date-header">
+                        <div class="date-info">
+                            <span class="today-label">今日摄入</span>
+                            <span class="date-text">8月27日 星期二</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 热量总览 -->
+                    <div class="card calorie-overview">
+                        <div class="calorie-main">
+                            <span class="calorie-current">1450</span>
+                            <span class="calorie-unit"> / 2000 千卡</span>
+                        </div>
+                        
+                        <!-- 进度条 -->
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 72.5%"></div>
+                        </div>
+                        
+                        <div class="calorie-status">
+                            <span class="remaining">剩余 550 千卡</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 三餐概览 -->
+                    <div class="meals-section">
+                        <div class="card meal-card" onclick="switchToRecord('breakfast')">
+                            <div class="meal-header">
+                                <div class="meal-info">
+                                    <h3 class="meal-name">早餐</h3>
+                                    <span class="meal-calories">520 千卡</span>
+                                </div>
+                                <div class="add-btn">+</div>
+                            </div>
+                            
+                            <div class="food-list">
+                                <div class="food-item">
+                                    <span class="food-name">鸡蛋</span>
+                                    <span class="food-weight">100g</span>
+                                    <span class="food-cal">144千卡</span>
+                                </div>
+                                <div class="food-item">
+                                    <span class="food-name">牛奶</span>
+                                    <span class="food-weight">250ml</span>
+                                    <span class="food-cal">155千卡</span>
+                                </div>
+                                <div class="food-item">
+                                    <span class="food-name">面包</span>
+                                    <span class="food-weight">70g</span>
+                                    <span class="food-cal">218千卡</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card meal-card" onclick="switchToRecord('lunch')">
+                            <div class="meal-header">
+                                <div class="meal-info">
+                                    <h3 class="meal-name">午餐</h3>
+                                    <span class="meal-calories">680 千卡</span>
+                                </div>
+                                <div class="add-btn">+</div>
+                            </div>
+                            
+                            <div class="food-list">
+                                <div class="food-item">
+                                    <span class="food-name">白米饭</span>
+                                    <span class="food-weight">150g</span>
+                                    <span class="food-cal">174千卡</span>
+                                </div>
+                                <div class="food-item">
+                                    <span class="food-name">鸡胸肉</span>
+                                    <span class="food-weight">120g</span>
+                                    <span class="food-cal">160千卡</span>
+                                </div>
+                                <div class="food-item">
+                                    <span class="food-name">西红柿</span>
+                                    <span class="food-weight">200g</span>
+                                    <span class="food-cal">38千卡</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card meal-card" onclick="switchToRecord('dinner')">
+                            <div class="meal-header">
+                                <div class="meal-info">
+                                    <h3 class="meal-name">晚餐</h3>
+                                    <span class="meal-calories">250 千卡</span>
+                                </div>
+                                <div class="add-btn">+</div>
+                            </div>
+                            
+                            <div class="food-list">
+                                <div class="food-item">
+                                    <span class="food-name">苹果</span>
+                                    <span class="food-weight">200g</span>
+                                    <span class="food-cal">108千卡</span>
+                                </div>
+                                <div class="food-item">
+                                    <span class="food-name">酸奶</span>
+                                    <span class="food-weight">150g</span>
+                                    <span class="food-cal">142千卡</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 快速添加按钮 -->
+                    <div class="quick-add-btn" onclick="switchToRecord()">
+                        快速记录
+                    </div>
+                </div>
+                
+                <!-- 记录页面 -->
+                <div class="page" id="recordPage">
+                    <!-- 餐次选择 -->
+                    <div class="card meal-selector">
+                        <div class="meal-tabs">
+                            <div class="meal-tab active" data-meal="breakfast">早餐</div>
+                            <div class="meal-tab" data-meal="lunch">午餐</div>
+                            <div class="meal-tab" data-meal="dinner">晚餐</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 搜索框 -->
+                    <div class="card search-section">
+                        <div class="search-box">
+                            <input type="text" placeholder="搜索食物名称" class="search-input">
+                            <div class="search-icon">🔍</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 分类标签 -->
+                    <div class="card category-section">
+                        <div class="category-tabs">
+                            <div class="category-tab active">全部</div>
+                            <div class="category-tab">主食</div>
+                            <div class="category-tab">蔬菜</div>
+                            <div class="category-tab">肉类</div>
+                            <div class="category-tab">水果</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 食物列表 -->
+                    <div class="food-list-section">
+                        <div class="card food-card" onclick="showWeightModal('白米饭', 116)">
+                            <div class="food-main-info">
+                                <h4 class="food-title">白米饭</h4>
+                                <div class="food-details">
+                                    <span class="food-category">主食</span>
+                                    <span class="food-cal-info">116千卡/100g</span>
+                                </div>
+                                <div class="nutrition-info">
+                                    <span class="nutrition-item">蛋白质: 2.6g</span>
+                                    <span class="nutrition-item">脂肪: 0.3g</span>
+                                    <span class="nutrition-item">碳水: 25.9g</span>
+                                </div>
+                            </div>
+                            <div class="add-food-btn">+</div>
+                        </div>
+                        
+                        <div class="card food-card" onclick="showWeightModal('鸡胸肉', 133)">
+                            <div class="food-main-info">
+                                <h4 class="food-title">鸡胸肉</h4>
+                                <div class="food-details">
+                                    <span class="food-category">肉类</span>
+                                    <span class="food-cal-info">133千卡/100g</span>
+                                </div>
+                                <div class="nutrition-info">
+                                    <span class="nutrition-item">蛋白质: 24.6g</span>
+                                    <span class="nutrition-item">脂肪: 5.0g</span>
+                                    <span class="nutrition-item">碳水: 0g</span>
+                                </div>
+                            </div>
+                            <div class="add-food-btn">+</div>
+                        </div>
+                        
+                        <div class="card food-card" onclick="showWeightModal('西红柿', 19)">
+                            <div class="food-main-info">
+                                <h4 class="food-title">西红柿</h4>
+                                <div class="food-details">
+                                    <span class="food-category">蔬菜</span>
+                                    <span class="food-cal-info">19千卡/100g</span>
+                                </div>
+                                <div class="nutrition-info">
+                                    <span class="nutrition-item">蛋白质: 0.9g</span>
+                                    <span class="nutrition-item">脂肪: 0.2g</span>
+                                    <span class="nutrition-item">碳水: 4.0g</span>
+                                </div>
+                            </div>
+                            <div class="add-food-btn">+</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 统计页面 -->
+                <div class="page" id="statsPage">
+                    <!-- 日期选择 -->
+                    <div class="card date-selector">
+                        <button class="nav-btn">‹</button>
+                        <span class="date-range">8/21 - 8/27</span>
+                        <button class="nav-btn">›</button>
+                    </div>
+                    
+                    <!-- 统计信息 -->
+                    <div class="card stats-overview">
+                        <div class="stat-item">
+                            <span class="stat-label">平均每日热量</span>
+                            <span class="stat-value primary">1520 千卡</span>
+                        </div>
+                        <div class="stat-item">
+                            <span class="stat-label">目标达成率</span>
+                            <span class="stat-value success">76%</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 每日记录 -->
+                    <div class="daily-records">
+                        <div class="card daily-record">
+                            <div class="record-header">
+                                <span class="record-date">8/27 周二</span>
+                                <span class="record-total success">1450 / 2000 千卡</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar" style="width: 72.5%"></div>
+                            </div>
+                            <div class="meal-breakdown">
+                                <div class="meal-stat">
+                                    <span class="meal-label">早餐</span>
+                                    <span class="meal-value">520千卡</span>
+                                </div>
+                                <div class="meal-stat">
+                                    <span class="meal-label">午餐</span>
+                                    <span class="meal-value">680千卡</span>
+                                </div>
+                                <div class="meal-stat">
+                                    <span class="meal-label">晚餐</span>
+                                    <span class="meal-value">250千卡</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card daily-record">
+                            <div class="record-header">
+                                <span class="record-date">8/26 周一</span>
+                                <span class="record-total warning">2180 / 2000 千卡</span>
+                            </div>
+                            <div class="progress-container">
+                                <div class="progress-bar warning" style="width: 100%"></div>
+                            </div>
+                            <div class="meal-breakdown">
+                                <div class="meal-stat">
+                                    <span class="meal-label">早餐</span>
+                                    <span class="meal-value">680千卡</span>
+                                </div>
+                                <div class="meal-stat">
+                                    <span class="meal-label">午餐</span>
+                                    <span class="meal-value">880千卡</span>
+                                </div>
+                                <div class="meal-stat">
+                                    <span class="meal-label">晚餐</span>
+                                    <span class="meal-value">620千卡</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- 个人设置页面 -->
+                <div class="page" id="profilePage">
+                    <!-- 用户信息 -->
+                    <div class="card user-info">
+                        <div class="avatar">
+                            <span class="avatar-text">♂</span>
+                        </div>
+                        <div class="user-details">
+                            <h3 class="username">热量记录用户 ♂</h3>
+                            <p class="user-subtitle">健康生活，从记录开始</p>
+                        </div>
+                    </div>
+                    
+                    <!-- 目标设置 -->
+                    <div class="card settings-section">
+                        <h4 class="section-title">目标设置</h4>
+                        <div class="setting-item">
+                            <span class="setting-label">每日热量目标</span>
+                            <div class="setting-value">
+                                <input type="number" value="2000" class="setting-input">
+                                <span class="unit">千卡</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 个人信息 -->
+                    <div class="card settings-section">
+                        <h4 class="section-title">个人信息</h4>
+                        <div class="setting-item">
+                            <span class="setting-label">性别</span>
+                            <select class="setting-select">
+                                <option>请选择</option>
+                                <option>♂ 男</option>
+                                <option>♀ 女</option>
+                            </select>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-label">年龄</span>
+                            <div class="setting-value">
+                                <input type="number" placeholder="请输入年龄" class="setting-input">
+                                <span class="unit">岁</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-label">身高</span>
+                            <div class="setting-value">
+                                <input type="number" value="170" class="setting-input">
+                                <span class="unit">cm</span>
+                            </div>
+                        </div>
+                        <div class="setting-item">
+                            <span class="setting-label">体重</span>
+                            <div class="setting-value">
+                                <input type="number" value="65" class="setting-input">
+                                <span class="unit">kg</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- BMI信息 -->
+                    <div class="card bmi-section">
+                        <div class="bmi-info">
+                            <span class="bmi-label">BMI 指数</span>
+                            <span class="bmi-value success">22.5</span>
+                        </div>
+                        <p class="bmi-status">正常范围</p>
+                    </div>
+                    
+                    <!-- 操作按钮 -->
+                    <div class="action-buttons">
+                        <button class="btn primary" onclick="saveSettings()">保存设置</button>
+                        <button class="btn secondary" onclick="clearData()">清空数据</button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 底部导航栏 -->
+            <div class="tab-bar">
+                <div class="tab-item active" onclick="switchPage('home')">
+                    <div class="tab-icon">🏠</div>
+                    <span class="tab-text">今日</span>
+                </div>
+                <div class="tab-item" onclick="switchPage('record')">
+                    <div class="tab-icon">➕</div>
+                    <span class="tab-text">记录</span>
+                </div>
+                <div class="tab-item" onclick="switchPage('stats')">
+                    <div class="tab-icon">📊</div>
+                    <span class="tab-text">统计</span>
+                </div>
+                <div class="tab-item" onclick="switchPage('profile')">
+                    <div class="tab-icon">👤</div>
+                    <span class="tab-text">我的</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 重量输入模态框 -->
+    <div class="modal-overlay" id="weightModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalFoodName">添加 白米饭</h3>
+                <button class="modal-close" onclick="hideWeightModal()">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="food-summary">
+                    <span class="food-cal-preview" id="modalFoodCal">116千卡/100g</span>
+                </div>
+                
+                <div class="weight-input-section">
+                    <label class="input-label">重量（克）</label>
+                    <input type="number" class="weight-input" value="100" id="weightInput">
+                </div>
+                
+                <div class="quick-weights">
+                    <label class="input-label">快速选择</label>
+                    <div class="weight-buttons">
+                        <button class="weight-btn" onclick="setWeight(50)">50g</button>
+                        <button class="weight-btn" onclick="setWeight(100)">100g</button>
+                        <button class="weight-btn" onclick="setWeight(150)">150g</button>
+                        <button class="weight-btn" onclick="setWeight(200)">200g</button>
+                        <button class="weight-btn" onclick="setWeight(250)">250g</button>
+                    </div>
+                </div>
+                
+                <div class="nutrition-preview">
+                    <label class="input-label">营养成分预览</label>
+                    <div class="nutrition-grid">
+                        <div class="nutrition-item">
+                            <span class="nutrition-label">热量</span>
+                            <span class="nutrition-value" id="previewCalories">116千卡</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-label">蛋白质</span>
+                            <span class="nutrition-value" id="previewProtein">2.6g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-label">脂肪</span>
+                            <span class="nutrition-value" id="previewFat">0.3g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-label">碳水</span>
+                            <span class="nutrition-value" id="previewCarbs">25.9g</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn secondary" onclick="hideWeightModal()">取消</button>
+                <button class="btn primary" onclick="addFood()">添加</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html>

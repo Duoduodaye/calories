@@ -1,0 +1,104 @@
+<!-- pages/index/index.wxml -->
+<view class="container">
+  
+  <!-- 日期显示 -->
+  <view class="card">
+    <view class="flex-between mb-10">
+      <text class="text-muted">今日摄入</text>
+      <text class="text-muted">{{ todayDate }}</text>
+    </view>
+    
+    <!-- 热量总览 -->
+    <view class="calorie-summary">
+      <view class="calorie-main">
+        <text class="calorie-current">{{ todayCalories }}</text>
+        <text class="calorie-unit"> / {{ dailyGoal }} 千卡</text>
+      </view>
+      
+      <!-- 热量进度条 -->
+      <view class="progress mt-10">
+        <view class="progress-bar {{ progressClass }}" style="width: {{ progressPercent }}%"></view>
+      </view>
+      
+      <!-- 热量详细信息 -->
+      <view class="calorie-details mt-10">
+        <view class="calorie-item">
+          <text class="calorie-label">摄入</text>
+          <text class="calorie-value intake">+{{ todayCalories }}</text>
+        </view>
+        <view class="calorie-item">
+          <text class="calorie-label">消耗</text>
+          <text class="calorie-value burn">-{{ todayExerciseCalories }}</text>
+        </view>
+        <view class="calorie-item balance">
+          <text class="calorie-label">热量差</text>
+          <text class="calorie-value {{ calorieBalance > 0 ? 'positive' : calorieBalance < 0 ? 'negative' : '' }}">
+            {{ calorieBalance > 0 ? '+' : '' }}{{ calorieBalance }}
+          </text>
+        </view>
+      </view>
+      
+      <view class="calorie-status mt-10">
+        <text class="text-muted">剩余 {{ remainingCalories }} 千卡</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 餐次概览 -->
+  <view class="meal-overview">
+    <view wx:for="{{ mealData }}" wx:key="type" class="card meal-card {{ item.isMainMeal ? 'main-meal' : 'snack-meal' }}" bindtap="navigateToRecord" data-meal="{{ item.type }}">
+      <view class="flex-between">
+        <view class="meal-info">
+          <text class="meal-name">{{ item.name }}</text>
+          <text class="meal-calories">{{ item.calories }} 千卡</text>
+          <view wx:if="{{ !item.isMainMeal }}" class="snack-label">
+            <text class="snack-tag">加餐</text>
+          </view>
+        </view>
+        <view class="meal-action">
+          <text class="add-icon">+</text>
+        </view>
+      </view>
+      
+      <!-- 食物列表 -->
+      <view wx:if="{{ item.foods.length > 0 }}" class="food-list mt-10">
+        <view wx:for="{{ item.foods }}" wx:for-item="food" wx:key="id" class="food-item">
+          <text class="food-name">{{ food.foodName }}</text>
+          <text class="food-weight">{{ food.weight }}g</text>
+          <text class="food-calories">{{ food.calories }}千卡</text>
+        </view>
+      </view>
+      
+      <view wx:else class="empty-meal">
+        <text class="text-muted">点击添加食物</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 运动概览 -->
+  <view class="card exercise-overview" bindtap="addExercise">
+    <view class="flex-between mb-10">
+      <text class="exercise-title">🏃‍♂️ 今日运动</text>
+      <text class="exercise-total">{{ todayExerciseCalories }} 千卡</text>
+    </view>
+    
+    <view wx:if="{{ exerciseData.length > 0 }}" class="exercise-list">
+      <view wx:for="{{ exerciseData }}" wx:key="id" class="exercise-item">
+        <text class="exercise-icon">{{ item.icon }}</text>
+        <text class="exercise-name">{{ item.exerciseName }}</text>
+        <text class="exercise-duration">{{ item.duration }}分钟</text>
+        <text class="exercise-calories">{{ item.caloriesBurned }}千卡</text>
+      </view>
+    </view>
+    
+    <view wx:else class="empty-exercise">
+      <text class="text-muted">点击添加运动记录</text>
+    </view>
+  </view>
+  
+  <!-- 快速添加按钮 -->
+  <view class="quick-add">
+    <button class="btn-primary" bindtap="quickAdd">快速记录</button>
+  </view>
+  
+</view>

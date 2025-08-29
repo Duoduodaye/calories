@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>热量记录小助手 - 网页演示</title>
+    <style>
+        /* 热量记录小助手 - 内联样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .phone-container {
+            perspective: 1000px;
+        }
+        
+        .phone-frame {
+            width: 375px;
+            height: 812px;
+            background: #000;
+            border-radius: 40px;
+            padding: 8px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .status-bar {
+            height: 44px;
+            background: #2196F3;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 32px 32px 0 0;
+        }
+        
+        .status-icons {
+            display: flex;
+            gap: 5px;
+        }
+        
+        .nav-bar {
+            background: #2196F3;
+            color: white;
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-bar h1 {
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
+        .page-container {
+            height: calc(812px - 44px - 59px - 83px);
+            background: #f5f5f5;
+            overflow-y: auto;
+            position: relative;
+        }
+        
+        .page {
+            display: none;
+            padding: 10px;
+            min-height: 100%;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            padding: 16px;
+        }
+        
+        .date-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 16px;
+        }
+        
+        .today-label {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .date-text {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .calorie-overview {
+            text-align: center;
+            padding: 24px 16px;
+        }
+        
+        .calorie-main {
+            margin-bottom: 16px;
+        }
+        
+        .calorie-current {
+            font-size: 48px;
+            font-weight: bold;
+            color: #2196F3;
+        }
+        
+        .calorie-unit {
+            font-size: 16px;
+            color: #666;
+        }
+        
+        .progress-container {
+            height: 8px;
+            background: #f0f0f0;
+            border-radius: 4px;
+            overflow: hidden;
+            margin: 12px 0;
+        }
+        
+        .progress-bar {
+            height: 100%;
+            background: #4CAF50;
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+        
+        .progress-bar.warning {
+            background: #FF9800;
+        }
+        
+        .progress-bar.danger {
+            background: #f44336;
+        }
+        
+        .calorie-status {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .remaining {
+            color: #4CAF50;
+        }
+        
+        .meals-section {
+            margin-top: 10px;
+        }
+        
+        .meal-card {
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+        
+        .meal-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+        
+        .meal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+        }
+        
+        .meal-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+        
+        .meal-calories {
+            font-size: 16px;
+            color: #2196F3;
+            font-weight: 600;
+        }
+        
+        .add-btn {
+            width: 32px;
+            height: 32px;
+            background: #f5f5f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #999;
+            cursor: pointer;
+        }
+        
+        .food-list {
+            border-top: 1px solid #f0f0f0;
+            padding-top: 12px;
+        }
+        
+        .food-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 13px;
+        }
+        
+        .food-name {
+            flex: 1;
+            color: #666;
+        }
+        
+        .food-weight {
+            margin: 0 12px;
+            color: #999;
+        }
+        
+        .food-cal {
+            color: #2196F3;
+            min-width: 60px;
+            text-align: right;
+            font-weight: 600;
+        }
+        
+        .quick-add-btn {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .quick-add-btn:hover {
+            background: #1976D2;
+            transform: translateX(-50%) translateY(-2px);
+            box-shadow: 0 6px 16px rgba(33, 150, 243, 0.4);
+        }
+        
+        .tab-bar {
+            height: 83px;
+            background: white;
+            display: flex;
+            border-top: 1px solid #f0f0f0;
+            padding-bottom: 24px;
+            border-radius: 0 0 32px 32px;
+        }
+        
+        .tab-item {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            padding-top: 8px;
+        }
+        
+        .tab-item.active {
+            color: #2196F3;
+        }
+        
+        .tab-item:not(.active) {
+            color: #666;
+        }
+        
+        .tab-icon {
+            font-size: 20px;
+            margin-bottom: 4px;
+        }
+        
+        .tab-text {
+            font-size: 11px;
+            font-weight: 600;
+        }
+        
+        /* 记录页面样式 */
+        .meal-selector {
+            padding: 8px;
+        }
+        
+        .meal-tabs {
+            display: flex;
+            background: #f5f5f5;
+            border-radius: 8px;
+            padding: 4px;
+        }
+        
+        .meal-tab {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            color: #666;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .meal-tab.active {
+            background: #2196F3;
+            color: white;
+        }
+        
+        .search-section {
+            padding: 12px 16px;
+        }
+        
+        .search-box {
+            position: relative;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 12px 40px 12px 16px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+        
+        .search-input:focus {
+            border-color: #2196F3;
+        }
+        
+        .search-icon {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #999;
+        }
+        
+        .category-section {
+            padding: 8px 16px;
+        }
+        
+        .category-tabs {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 4px 0;
+        }
+        
+        .category-tab {
+            padding: 8px 16px;
+            background: #f5f5f5;
+            border-radius: 20px;
+            font-size: 13px;
+            color: #666;
+            white-space: nowrap;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .category-tab.active {
+            background: #E3F2FD;
+            color: #2196F3;
+        }
+        
+        .food-list-section {
+            margin-top: 8px;
+        }
+        
+        .food-card {
+            display: flex;
+            align-items: center;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+        
+        .food-card:hover {
+            background: #fafafa;
+        }
+        
+        .food-main-info {
+            flex: 1;
+        }
+        
+        .food-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin: 0 0 8px 0;
+        }
+        
+        .food-details {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 8px;
+        }
+        
+        .food-category {
+            padding: 2px 8px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+        
+        .food-cal-info {
+            font-size: 12px;
+            color: #2196F3;
+            font-weight: 600;
+        }
+        
+        .nutrition-info {
+            display: flex;
+            gap: 12px;
+        }
+        
+        .nutrition-item {
+            font-size: 11px;
+            color: #999;
+        }
+        
+        .add-food-btn {
+            width: 36px;
+            height: 36px;
+            background: #f5f5f5;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #2196F3;
+            cursor: pointer;
+        }
+
+        /* 模态框样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-overlay.show {
+            display: flex;
+        }
+
+        .modal-content {
+            width: 320px;
+            max-height: 80%;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .modal-title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+
+        .modal-close {
+            width: 32px;
+            height: 32px;
+            background: #f0f0f0;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            color: #666;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-body {
+            padding: 16px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .food-summary {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .food-cal-preview {
+            font-size: 14px;
+            color: #2196F3;
+            font-weight: 600;
+        }
+
+        .weight-input-section {
+            margin-bottom: 16px;
+        }
+
+        .input-label {
+            display: block;
+            font-size: 14px;
+            color: #333;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .weight-input {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        .weight-input:focus {
+            border-color: #2196F3;
+        }
+
+        .quick-weights {
+            margin-bottom: 16px;
+        }
+
+        .weight-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .weight-btn {
+            flex: 0 0 auto;
+            padding: 8px 16px;
+            background: #f5f5f5;
+            border: none;
+            border-radius: 16px;
+            font-size: 13px;
+            color: #333;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .weight-btn:hover {
+            background: #e0e0e0;
+        }
+
+        .nutrition-preview {
+            margin-top: 16px;
+        }
+
+        .nutrition-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .nutrition-grid .nutrition-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 12px;
+            background: #f8f8f8;
+            border-radius: 6px;
+        }
+
+        .nutrition-label {
+            font-size: 12px;
+            color: #666;
+        }
+
+        .nutrition-value {
+            font-size: 12px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .modal-footer {
+            display: flex;
+            gap: 12px;
+            padding: 16px;
+            border-top: 1px solid #f0f0f0;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 12px 16px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn.primary {
+            background: #2196F3;
+            color: white;
+        }
+
+        .btn.primary:hover {
+            background: #1976D2;
+        }
+
+        .btn.secondary {
+            background: #f5f5f5;
+            color: #333;
+        }
+
+        .btn.secondary:hover {
+            background: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+    <div class="phone-container">
+        <div class="phone-frame">
+            <!-- 状态栏 -->
+            <div class="status-bar">
+                <span class="time">9:41</span>
+                <div class="status-icons">
+                    <span class="signal">📶</span>
+                    <span class="battery">🔋</span>
+                </div>
+            </div>
+            
+            <!-- 导航栏 -->
+            <div class="nav-bar">
+                <h1>热量记录小助手</h1>
+            </div>
+            
+            <!-- 页面内容容器 -->
+            <div class="page-container">
+                <!-- 首页内容 -->
+                <div class="page active" id="homePage">
+                    <!-- 日期显示 -->
+                    <div class="card date-header">
+                        <span class="today-label">今日摄入</span>
+                        <span class="date-text">8月27日 星期二</span>
+                    </div>
+                    
+                    <!-- 热量总览 -->
+                    <div class="card calorie-overview">
+                        <div class="calorie-main">
+                            <span class="calorie-current">1450</span>
+                            <span class="calorie-unit"> / 2000 千卡</span>
+                        </div>
+                        
+                        <!-- 进度条 -->
+                        <div class="progress-container">
+                            <div class="progress-bar" style="width: 72.5%"></div>
+                        </div>
+                        
+                        <div class="calorie-status">
+                            <span class="remaining">剩余 550 千卡</span>
+                        </div>
+                    </div>
+                    
+                    <!-- 三餐概览 -->
+                    <div class="meals-section">
+                        <div class="card meal-card" onclick="switchToRecord('breakfast')">
+                            <div class="meal-header">
+                                <div class="meal-info">
+                                    <h3 class="meal-name">早餐</h3>
+                                    <span class="meal-calories">520 千卡</span>
+                                </div>
+                                <div class="add-btn">+</div>
+                            </div>
+                            
+                            <div class="food-list">
+                                <div class="food-item">
+                                    <span class="food-name">鸡蛋</span>
+                                    <span class="food-weight">100g</span>
+                                    <span class="food-cal">144千卡</span>
+                                </div>
+                                <div class="food-item">
+                                    <span class="food-name">牛奶</span>
+                                    <span class="food-weight">250ml</span>
+                                    <span class="food-cal">155千卡</span>
+                                </div>
+                                <div class="food-item">
+                                    <span class="food-name">面包</span>
+                                    <span class="food-weight">70g</span>
+                                    <span class="food-cal">218千卡</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card meal-card" onclick="switchToRecord('lunch')">
+                            <div class="meal-header">
+                                <div class="meal-info">
+                                    <h3 class="meal-name">午餐</h3>
+                                    <span class="meal-calories">680 千卡</span>
+                                </div>
+                                <div class="add-btn">+</div>
+                            </div>
+                            
+                            <div class="food-list">
+                                <div class="food-item">
+                                    <span class="food-name">白米饭</span>
+                                    <span class="food-weight">150g</span>
+                                    <span class="food-cal">174千卡</span>
+                                </div>
+                                <div class="food-item">
+                                    <span class="food-name">鸡胸肉</span>
+                                    <span class="food-weight">120g</span>
+                                    <span class="food-cal">160千卡</span>
+                                </div>
+                                <div class="food-item">
+                                    <span class="food-name">西红柿</span>
+                                    <span class="food-weight">200g</span>
+                                    <span class="food-cal">38千卡</span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card meal-card" onclick="switchToRecord('dinner')">
+                            <div class="meal-header">
+                                <div class="meal-info">
+                                    <h3 class="meal-name">晚餐</h3>
+                                    <span class="meal-calories">250 千卡</span>
+                                </div>
+                                <div class="add-btn">+</div>
+                            </div>
+                            
+                            <div class="food-list">
+                                <div class="food-item">
+                                    <span class="food-name">苹果</span>
+                                    <span class="food-weight">200g</span>
+                                    <span class="food-cal">108千卡</span>
+                                </div>
+                                <div class="food-item">
+                                    <span class="food-name">酸奶</span>
+                                    <span class="food-weight">150g</span>
+                                    <span class="food-cal">142千卡</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- 快速添加按钮 -->
+                    <div class="quick-add-btn" onclick="switchToRecord()">
+                        快速记录
+                    </div>
+                </div>
+                
+                <!-- 记录页面 -->
+                <div class="page" id="recordPage">
+                    <!-- 餐次选择 -->
+                    <div class="card meal-selector">
+                        <div class="meal-tabs">
+                            <div class="meal-tab active" data-meal="breakfast">早餐</div>
+                            <div class="meal-tab" data-meal="lunch">午餐</div>
+                            <div class="meal-tab" data-meal="dinner">晚餐</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 搜索框 -->
+                    <div class="card search-section">
+                        <div class="search-box">
+                            <input type="text" placeholder="搜索食物名称" class="search-input">
+                            <div class="search-icon">🔍</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 分类标签 -->
+                    <div class="card category-section">
+                        <div class="category-tabs">
+                            <div class="category-tab active">全部</div>
+                            <div class="category-tab">主食</div>
+                            <div class="category-tab">蔬菜</div>
+                            <div class="category-tab">肉类</div>
+                            <div class="category-tab">水果</div>
+                        </div>
+                    </div>
+                    
+                    <!-- 食物列表 -->
+                    <div class="food-list-section">
+                        <div class="card food-card" onclick="showWeightModal('白米饭', 116)">
+                            <div class="food-main-info">
+                                <h4 class="food-title">白米饭</h4>
+                                <div class="food-details">
+                                    <span class="food-category">主食</span>
+                                    <span class="food-cal-info">116千卡/100g</span>
+                                </div>
+                                <div class="nutrition-info">
+                                    <span class="nutrition-item">蛋白质: 2.6g</span>
+                                    <span class="nutrition-item">脂肪: 0.3g</span>
+                                    <span class="nutrition-item">碳水: 25.9g</span>
+                                </div>
+                            </div>
+                            <div class="add-food-btn">+</div>
+                        </div>
+                        
+                        <div class="card food-card" onclick="showWeightModal('鸡胸肉', 133)">
+                            <div class="food-main-info">
+                                <h4 class="food-title">鸡胸肉</h4>
+                                <div class="food-details">
+                                    <span class="food-category">肉类</span>
+                                    <span class="food-cal-info">133千卡/100g</span>
+                                </div>
+                                <div class="nutrition-info">
+                                    <span class="nutrition-item">蛋白质: 24.6g</span>
+                                    <span class="nutrition-item">脂肪: 5.0g</span>
+                                    <span class="nutrition-item">碳水: 0g</span>
+                                </div>
+                            </div>
+                            <div class="add-food-btn">+</div>
+                        </div>
+                        
+                        <div class="card food-card" onclick="showWeightModal('西红柿', 19)">
+                            <div class="food-main-info">
+                                <h4 class="food-title">西红柿</h4>
+                                <div class="food-details">
+                                    <span class="food-category">蔬菜</span>
+                                    <span class="food-cal-info">19千卡/100g</span>
+                                </div>
+                                <div class="nutrition-info">
+                                    <span class="nutrition-item">蛋白质: 0.9g</span>
+                                    <span class="nutrition-item">脂肪: 0.2g</span>
+                                    <span class="nutrition-item">碳水: 4.0g</span>
+                                </div>
+                            </div>
+                            <div class="add-food-btn">+</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 底部导航栏 -->
+            <div class="tab-bar">
+                <div class="tab-item active" onclick="switchPage('home')">
+                    <div class="tab-icon">🏠</div>
+                    <span class="tab-text">今日</span>
+                </div>
+                <div class="tab-item" onclick="switchPage('record')">
+                    <div class="tab-icon">➕</div>
+                    <span class="tab-text">记录</span>
+                </div>
+                <div class="tab-item" onclick="switchPage('stats')">
+                    <div class="tab-icon">📊</div>
+                    <span class="tab-text">统计</span>
+                </div>
+                <div class="tab-item" onclick="switchPage('profile')">
+                    <div class="tab-icon">👤</div>
+                    <span class="tab-text">我的</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 重量输入模态框 -->
+    <div class="modal-overlay" id="weightModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title" id="modalFoodName">添加 白米饭</h3>
+                <button class="modal-close" onclick="hideWeightModal()">×</button>
+            </div>
+            
+            <div class="modal-body">
+                <div class="food-summary">
+                    <span class="food-cal-preview" id="modalFoodCal">116千卡/100g</span>
+                </div>
+                
+                <div class="weight-input-section">
+                    <label class="input-label">重量（克）</label>
+                    <input type="number" class="weight-input" value="100" id="weightInput">
+                </div>
+                
+                <div class="quick-weights">
+                    <label class="input-label">快速选择</label>
+                    <div class="weight-buttons">
+                        <button class="weight-btn" onclick="setWeight(50)">50g</button>
+                        <button class="weight-btn" onclick="setWeight(100)">100g</button>
+                        <button class="weight-btn" onclick="setWeight(150)">150g</button>
+                        <button class="weight-btn" onclick="setWeight(200)">200g</button>
+                        <button class="weight-btn" onclick="setWeight(250)">250g</button>
+                    </div>
+                </div>
+                
+                <div class="nutrition-preview">
+                    <label class="input-label">营养成分预览</label>
+                    <div class="nutrition-grid">
+                        <div class="nutrition-item">
+                            <span class="nutrition-label">热量</span>
+                            <span class="nutrition-value" id="previewCalories">116千卡</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-label">蛋白质</span>
+                            <span class="nutrition-value" id="previewProtein">2.6g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-label">脂肪</span>
+                            <span class="nutrition-value" id="previewFat">0.3g</span>
+                        </div>
+                        <div class="nutrition-item">
+                            <span class="nutrition-label">碳水</span>
+                            <span class="nutrition-value" id="previewCarbs">25.9g</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="modal-footer">
+                <button class="btn secondary" onclick="hideWeightModal()">取消</button>
+                <button class="btn primary" onclick="addFood()">添加</button>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // 简化的JavaScript，只包含基本交互
+        let currentMeal = 'breakfast';
+        let currentFood = { name: '', calories: 0 };
+
+        function switchPage(pageName) {
+            // 隐藏所有页面
+            const pages = document.querySelectorAll('.page');
+            pages.forEach(page => page.classList.remove('active'));
+            
+            // 显示目标页面
+            const targetPage = document.getElementById(pageName + 'Page');
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            // 更新底部导航栏
+            const tabItems = document.querySelectorAll('.tab-item');
+            tabItems.forEach(tab => tab.classList.remove('active'));
+            
+            const activeTab = document.querySelector(`[onclick="switchPage('${pageName}')"]`);
+            if (activeTab) {
+                activeTab.classList.add('active');
+            }
+        }
+
+        function switchToRecord(meal = 'breakfast') {
+            currentMeal = meal;
+            switchPage('record');
+        }
+
+        function showWeightModal(foodName, calories) {
+            currentFood = { name: foodName, calories };
+            document.getElementById('modalFoodName').textContent = `添加 ${foodName}`;
+            document.getElementById('modalFoodCal').textContent = `${calories}千卡/100g`;
+            document.getElementById('weightModal').classList.add('show');
+        }
+
+        function hideWeightModal() {
+            document.getElementById('weightModal').classList.remove('show');
+        }
+
+        function setWeight(weight) {
+            document.getElementById('weightInput').value = weight;
+        }
+
+        function addFood() {
+            alert(`成功添加 ${currentFood.name}！`);
+            hideWeightModal();
+            switchPage('home');
+        }
+
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            switchPage('home');
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,220 @@
+<!-- pages/record/record.wxml -->
+<view class="container">
+  
+  <!-- 餐次选择 (仅食物记录显示) -->
+  <view wx:if="{{ recordType === 'food' }}" class="card">
+    <view class="meal-selector">
+      <scroll-view scroll-x="true" class="meal-scroll">
+        <view class="meal-tabs">
+          <view wx:for="{{ mealTypes }}" wx:key="type" 
+                class="meal-tab {{ selectedMeal === item.type ? 'active' : '' }} {{ item.isMain ? '' : 'snack-tab' }}" 
+                bindtap="selectMeal" 
+                data-meal="{{ item.type }}">
+            <text>{{ item.name }}</text>
+            <view wx:if="{{ !item.isMain }}" class="tab-snack-dot"></view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+  
+  <!-- 页面标题 -->
+  <view class="card">
+    <view class="page-title">
+      <text wx:if="{{ recordType === 'food' }}">🍽️ 记录食物摄入</text>
+      <text wx:else>🏃‍♂️ 记录运动消耗</text>
+    </view>
+  </view>
+  
+  <!-- 搜索框 -->
+  <view class="card">
+    <view class="search-box">
+      <input class="search-input" 
+             placeholder="{{ recordType === 'food' ? '搜索食物名称' : '搜索运动名称' }}" 
+             value="{{ searchKeyword }}" 
+             bindinput="onSearchInput" />
+      <button wx:if="{{ searchKeyword }}" class="clear-btn" bindtap="clearSearch">×</button>
+    </view>
+  </view>
+  
+  <!-- 分类选择 -->
+  <view class="card">
+    <view class="category-tabs">
+      <scroll-view scroll-x="true" class="category-scroll">
+        <view class="category-list">
+          <view wx:for="{{ recordType === 'food' ? categories : exerciseCategories }}" wx:key="*this" 
+                class="category-tab {{ selectedCategory === item ? 'active' : '' }}" 
+                bindtap="selectCategory" 
+                data-category="{{ item }}">
+            <text>{{ item }}</text>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+  
+  <!-- 食物列表 -->
+  <view wx:if="{{ recordType === 'food' }}" class="food-list">
+    <view wx:for="{{ filteredFoods }}" wx:key="id" 
+          class="card food-item" 
+          bindtap="selectFood" 
+          data-food="{{ item }}">
+      <view class="food-info">
+        <view class="food-name">{{ item.name }}</view>
+        <view class="food-details">
+          <text class="food-category">{{ item.category }}</text>
+          <text class="food-calories">{{ item.calories }}千卡/100g</text>
+        </view>
+        <view class="food-nutrition">
+          <text class="nutrition-item">蛋白质: {{ item.protein }}g</text>
+          <text class="nutrition-item">脂肪: {{ item.fat }}g</text>
+          <text class="nutrition-item">碳水: {{ item.carbs }}g</text>
+        </view>
+      </view>
+      <view class="food-action">
+        <text class="add-icon">+</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 运动列表 -->
+  <view wx:if="{{ recordType === 'exercise' }}" class="exercise-list">
+    <view wx:for="{{ filteredExercises }}" wx:key="id" 
+          class="card exercise-item" 
+          bindtap="selectExercise" 
+          data-exercise="{{ item }}">
+      <view class="exercise-info">
+        <view class="exercise-header">
+          <text class="exercise-icon">{{ item.icon }}</text>
+          <view class="exercise-main">
+            <view class="exercise-name">{{ item.name }}</view>
+            <view class="exercise-details">
+              <text class="exercise-category">{{ item.category }}</text>
+              <text class="exercise-calories">{{ item.caloriesPerMin }}千卡/分钟</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      <view class="exercise-action">
+        <text class="add-icon">+</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 空状态 -->
+  <view wx:if="{{ (recordType === 'food' && filteredFoods.length === 0) || (recordType === 'exercise' && filteredExercises.length === 0) }}" class="empty-state">
+    <text class="text-muted">{{ recordType === 'food' ? '没有找到相关食物' : '没有找到相关运动' }}</text>
+  </view>
+  
+</view>
+
+<!-- 食物重量输入弹窗 -->
+<view wx:if="{{ showWeightModal }}" class="modal-overlay" bindtap="closeWeightModal">
+  <view class="modal-content" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">添加 {{ selectedFood.name }}</text>
+      <button class="modal-close" bindtap="closeWeightModal">×</button>
+    </view>
+    
+    <view class="modal-body">
+      <view class="food-summary">
+        <text class="food-calories-per-100g">{{ selectedFood.calories }}千卡/100g</text>
+      </view>
+      
+      <view class="weight-input">
+        <text class="input-label">重量（克）</text>
+        <input class="input" 
+               type="number" 
+               placeholder="请输入重量" 
+               value="{{ inputWeight }}" 
+               bindinput="onWeightInput" />
+      </view>
+      
+      <view class="quick-weights">
+        <text class="input-label">快速选择</text>
+        <view class="weight-buttons">
+          <button wx:for="{{ quickWeights }}" wx:key="*this" 
+                  class="btn-secondary weight-btn" 
+                  bindtap="selectQuickWeight" 
+                  data-weight="{{ item }}">{{ item }}g</button>
+        </view>
+      </view>
+      
+      <view wx:if="{{ calculatedNutrition }}" class="nutrition-preview">
+        <text class="input-label">营养成分预览</text>
+        <view class="nutrition-grid">
+          <view class="nutrition-item">
+            <text class="nutrition-label">热量</text>
+            <text class="nutrition-value">{{ calculatedNutrition.calories }}千卡</text>
+          </view>
+          <view class="nutrition-item">
+            <text class="nutrition-label">蛋白质</text>
+            <text class="nutrition-value">{{ calculatedNutrition.protein }}g</text>
+          </view>
+          <view class="nutrition-item">
+            <text class="nutrition-label">脂肪</text>
+            <text class="nutrition-value">{{ calculatedNutrition.fat }}g</text>
+          </view>
+          <view class="nutrition-item">
+            <text class="nutrition-label">碳水</text>
+            <text class="nutrition-value">{{ calculatedNutrition.carbs }}g</text>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <view class="modal-footer">
+      <button class="btn-secondary" bindtap="closeWeightModal">取消</button>
+      <button class="btn-primary" bindtap="confirmAdd">添加</button>
+    </view>
+  </view>
+</view>
+
+<!-- 运动时长输入弹窗 -->
+<view wx:if="{{ showExerciseModal }}" class="modal-overlay" bindtap="closeExerciseModal">
+  <view class="modal-content" catchtap="">
+    <view class="modal-header">
+      <text class="modal-title">{{ selectedExercise.icon }} {{ selectedExercise.name }}</text>
+      <button class="modal-close" bindtap="closeExerciseModal">×</button>
+    </view>
+    
+    <view class="modal-body">
+      <view class="exercise-summary">
+        <text class="exercise-calories-per-min">{{ selectedExercise.caloriesPerMin }}千卡/分钟</text>
+        <text class="exercise-category-label">{{ selectedExercise.category }}</text>
+      </view>
+      
+      <view class="duration-input">
+        <text class="input-label">运动时长（分钟）</text>
+        <input class="input" 
+               type="number" 
+               placeholder="请输入时长" 
+               value="{{ inputDuration }}" 
+               bindinput="onDurationInput" />
+      </view>
+      
+      <view class="quick-durations">
+        <text class="input-label">快速选择</text>
+        <view class="duration-buttons">
+          <button wx:for="{{ quickDurations }}" wx:key="*this" 
+                  class="btn-secondary duration-btn" 
+                  bindtap="selectQuickDuration" 
+                  data-duration="{{ item }}">{{ item }}分钟</button>
+        </view>
+      </view>
+      
+      <view wx:if="{{ calculatedCalories > 0 }}" class="calories-preview">
+        <text class="input-label">消耗热量预览</text>
+        <view class="calories-display">
+          <text class="calories-number">{{ calculatedCalories }}</text>
+          <text class="calories-unit">千卡</text>
+        </view>
+      </view>
+    </view>
+    
+    <view class="modal-footer">
+      <button class="btn-secondary" bindtap="closeExerciseModal">取消</button>
+      <button class="btn-primary" bindtap="confirmAddExercise">添加</button>
+    </view>
+  </view>
+</view>

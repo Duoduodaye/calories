@@ -1,0 +1,175 @@
+/* app.wxss - 全局样式 */
+
+.container {
+  padding: 20rpx;
+  box-sizing: border-box;
+}
+
+/* 通用样式 */
+.card {
+  background: #fff;
+  border-radius: 12rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.1);
+  margin-bottom: 20rpx;
+  padding: 24rpx;
+}
+
+.btn-primary {
+  background-color: #9CAF88;
+  color: white;
+  border: none;
+  border-radius: 8rpx;
+  padding: 20rpx 40rpx;
+  font-size: 32rpx;
+}
+
+.btn-primary:hover {
+  background-color: #7A8B6E;
+}
+
+.btn-secondary {
+  background-color: #f5f5f5;
+  color: #333;
+  border: none;
+  border-radius: 8rpx;
+  padding: 16rpx 32rpx;
+  font-size: 28rpx;
+}
+
+.text-primary {
+  color: #9CAF88;
+}
+
+.text-success {
+  color: #4CAF50;
+}
+
+.text-warning {
+  color: #FF9800;
+}
+
+.text-danger {
+  color: #f44336;
+}
+
+.text-muted {
+  color: #999;
+  font-size: 26rpx;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.flex {
+  display: flex;
+}
+
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.mt-10 {
+  margin-top: 20rpx;
+}
+
+.mt-20 {
+  margin-top: 40rpx;
+}
+
+.mb-10 {
+  margin-bottom: 20rpx;
+}
+
+.mb-20 {
+  margin-bottom: 40rpx;
+}
+
+.p-10 {
+  padding: 20rpx;
+}
+
+.p-20 {
+  padding: 40rpx;
+}
+
+/* 列表样式 */
+.list-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.list-item:last-child {
+  border-bottom: none;
+}
+
+/* 输入框样式 */
+.input {
+  border: 1rpx solid #ddd;
+  border-radius: 8rpx;
+  padding: 20rpx;
+  font-size: 32rpx;
+  background: #fff;
+}
+
+.input:focus {
+  border-color: #9CAF88;
+}
+
+/* 标签样式 */
+.tag {
+  display: inline-block;
+  padding: 8rpx 16rpx;
+  background: #f5f5f5;
+  border-radius: 20rpx;
+  font-size: 24rpx;
+  color: #666;
+  margin: 4rpx;
+}
+
+.tag-primary {
+  background: #F0F5ED;
+  color: #9CAF88;
+}
+
+/* 进度条 */
+.progress {
+  height: 12rpx;
+  background: #f0f0f0;
+  border-radius: 6rpx;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: #4CAF50;
+  transition: width 0.3s ease;
+}
+
+.progress-bar.warning {
+  background: #FF9800;
+}
+
+.progress-bar.danger {
+  background: #f44336;
+}

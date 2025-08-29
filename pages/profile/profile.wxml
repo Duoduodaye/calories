@@ -1,0 +1,106 @@
+<!-- pages/profile/profile.wxml -->
+<view class="container">
+  
+  <!-- 用户信息 -->
+  <view class="card user-info">
+    <view class="avatar">
+      <text class="avatar-text">{{ genderIndex >= 0 ? genderOptions[genderIndex].icon : '👤' }}</text>
+    </view>
+    <view class="user-details">
+      <text class="username">热量记录用户 {{ genderIndex >= 0 ? genderOptions[genderIndex].icon : '' }}</text>
+      <text class="user-subtitle">健康生活，从记录开始</text>
+    </view>
+  </view>
+  
+  <!-- 目标设置 -->
+  <view class="card">
+    <view class="section-title">目标设置</view>
+    
+    <view class="setting-item">
+      <text class="setting-label">每日热量目标</text>
+      <view class="setting-value">
+        <input class="setting-input" 
+               type="number" 
+               value="{{ dailyGoal }}" 
+               bindinput="onDailyGoalInput" />
+        <text class="unit">千卡</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 个人信息 -->
+  <view class="card">
+    <view class="section-title">个人信息</view>
+    
+    <view class="setting-item">
+      <text class="setting-label">性别</text>
+      <picker class="setting-picker" 
+              mode="selector" 
+              range="{{ genderOptions }}" 
+              range-key="label"
+              value="{{ genderIndex }}" 
+              bindchange="onGenderChange">
+        <text class="picker-text">{{ genderIndex >= 0 ? genderOptions[genderIndex].label : '请选择' }}</text>
+      </picker>
+    </view>
+    
+    <view class="setting-item">
+      <text class="setting-label">年龄</text>
+      <view class="setting-value">
+        <input class="setting-input" 
+               type="number" 
+               value="{{ age }}" 
+               bindinput="onAgeInput" 
+               placeholder="请输入年龄" />
+        <text class="unit">岁</text>
+      </view>
+    </view>
+    
+    <view class="setting-item">
+      <text class="setting-label">身高</text>
+      <view class="setting-value">
+        <input class="setting-input" 
+               type="number" 
+               value="{{ height }}" 
+               bindinput="onHeightInput" 
+               placeholder="请输入身高" />
+        <text class="unit">cm</text>
+      </view>
+    </view>
+    
+    <view class="setting-item">
+      <text class="setting-label">体重</text>
+      <view class="setting-value">
+        <input class="setting-input" 
+               type="number" 
+               value="{{ weight }}" 
+               bindinput="onWeightInput" 
+               placeholder="请输入体重" />
+        <text class="unit">kg</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- BMI信息 -->
+  <view wx:if="{{ bmi }}" class="card">
+    <view class="bmi-info">
+      <text class="bmi-label">BMI 指数</text>
+      <text class="bmi-value {{ bmiClass }}">{{ bmi }}</text>
+    </view>
+    <text class="bmi-status">{{ bmiStatus }}</text>
+  </view>
+  
+  <!-- 操作按钮 -->
+  <view class="actions">
+    <button class="btn-primary" bindtap="saveProfile">保存设置</button>
+    <button class="btn-secondary" bindtap="clearData">清空数据</button>
+  </view>
+  
+  <!-- 关于 -->
+  <view class="card about">
+    <view class="about-title">关于小程序</view>
+    <text class="about-text">热量记录小助手 v1.0</text>
+    <text class="about-text">帮助您记录每日摄入的热量，养成健康生活习惯</text>
+  </view>
+  
+</view>

@@ -1,0 +1,155 @@
+/* pages/stats/stats.wxss */
+
+.date-selector {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20rpx 0;
+}
+
+.date-range {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16rpx;
+}
+
+.stats-item {
+  text-align: center;
+  padding: 20rpx;
+  background: #f8f9fa;
+  border-radius: 8rpx;
+}
+
+.stats-label {
+  font-size: 28rpx;
+  color: #666;
+}
+
+.stats-value {
+  font-size: 32rpx;
+  font-weight: bold;
+}
+
+.daily-records {
+  margin-top: 20rpx;
+}
+
+.daily-record {
+  margin-bottom: 16rpx;
+}
+
+.record-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.record-date {
+  font-size: 28rpx;
+  color: #333;
+  font-weight: bold;
+}
+
+.record-total {
+  font-size: 26rpx;
+  font-weight: bold;
+}
+
+.meal-breakdown {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 16rpx;
+  padding-top: 16rpx;
+  border-top: 1rpx solid #f0f0f0;
+}
+
+.meal-stat {
+  text-align: center;
+  flex: 1;
+}
+
+.meal-name {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 4rpx;
+}
+
+.meal-calories {
+  font-size: 26rpx;
+  color: #9CAF88;
+  font-weight: bold;
+}
+
+/* 热量平衡显示 */
+.calorie-balance-row {
+  display: flex;
+  justify-content: space-around;
+  background: #f8f9fa;
+  border-radius: 8rpx;
+  padding: 16rpx;
+  margin: 12rpx 0;
+}
+
+.balance-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+}
+
+.balance-label {
+  font-size: 24rpx;
+  color: #6c757d;
+  margin-bottom: 4rpx;
+}
+
+.balance-value {
+  font-size: 26rpx;
+  font-weight: bold;
+}
+
+.balance-value.intake {
+  color: #28a745;
+}
+
+.balance-value.burn {
+  color: #dc3545;
+}
+
+.balance-value.positive {
+  color: #fd7e14;
+}
+
+.balance-value.negative {
+  color: #20c997;
+}
+
+/* 统计数值颜色 */
+.stats-value.intake {
+  color: #28a745;
+}
+
+.stats-value.burn {
+  color: #dc3545;
+}
+
+.stats-value.positive {
+  color: #fd7e14;
+}
+
+.stats-value.negative {
+  color: #20c997;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 100rpx 0;
+}

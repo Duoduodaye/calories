@@ -1,0 +1,81 @@
+<!-- pages/stats/stats.wxml -->
+<view class="container">
+  
+  <!-- 日期选择 -->
+  <view class="card">
+    <view class="date-selector">
+      <button class="btn-secondary" bindtap="previousWeek">←</button>
+      <text class="date-range">{{ dateRangeText }}</text>
+      <button class="btn-secondary" bindtap="nextWeek">→</button>
+    </view>
+  </view>
+  
+  <!-- 平均统计 -->
+  <view class="card">
+    <view class="stats-grid">
+      <view class="stats-item">
+        <text class="stats-label">平均摄入</text>
+        <text class="stats-value intake">{{ avgDailyCalories }} 千卡</text>
+      </view>
+      <view class="stats-item">
+        <text class="stats-label">平均消耗</text>
+        <text class="stats-value burn">{{ avgDailyExercise }} 千卡</text>
+      </view>
+      <view class="stats-item">
+        <text class="stats-label">平均热量差</text>
+        <text class="stats-value {{ avgCalorieBalance > 0 ? 'positive' : avgCalorieBalance < 0 ? 'negative' : '' }}">
+          {{ avgCalorieBalance > 0 ? '+' : '' }}{{ avgCalorieBalance }}
+        </text>
+      </view>
+      <view class="stats-item">
+        <text class="stats-label">目标达成率</text>
+        <text class="stats-value {{ achievementClass }}">{{ achievementRate }}%</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 每日记录 -->
+  <view class="daily-records">
+    <view wx:for="{{ weeklyData }}" wx:key="date" class="card daily-record">
+      <view class="record-header">
+        <text class="record-date">{{ item.dateText }}</text>
+        <text class="record-total {{ item.totalClass }}">{{ item.totalCalories }} / {{ dailyGoal }} 千卡</text>
+      </view>
+      
+      <view class="progress">
+        <view class="progress-bar {{ item.progressClass }}" style="width: {{ item.progressPercent }}%"></view>
+      </view>
+      
+      <!-- 热量平衡显示 -->
+      <view class="calorie-balance-row">
+        <view class="balance-item">
+          <text class="balance-label">摄入</text>
+          <text class="balance-value intake">+{{ item.totalCalories }}</text>
+        </view>
+        <view class="balance-item">
+          <text class="balance-label">消耗</text>
+          <text class="balance-value burn">-{{ item.totalExercise }}</text>
+        </view>
+        <view class="balance-item">
+          <text class="balance-label">热量差</text>
+          <text class="balance-value {{ item.calorieBalance > 0 ? 'positive' : item.calorieBalance < 0 ? 'negative' : '' }}">
+            {{ item.calorieBalance > 0 ? '+' : '' }}{{ item.calorieBalance }}
+          </text>
+        </view>
+      </view>
+      
+      <view class="meal-breakdown">
+        <view wx:for="{{ item.meals }}" wx:for-item="meal" wx:key="type" class="meal-stat">
+          <text class="meal-name">{{ meal.name }}</text>
+          <text class="meal-calories">{{ meal.calories }}千卡</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 空状态 -->
+  <view wx:if="{{ weeklyData.length === 0 }}" class="empty-state">
+    <text class="text-muted">暂无数据</text>
+  </view>
+  
+</view>

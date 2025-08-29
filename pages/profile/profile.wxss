@@ -1,0 +1,153 @@
+/* pages/profile/profile.wxss */
+
+.user-info {
+  display: flex;
+  align-items: center;
+  padding: 40rpx 24rpx;
+}
+
+.avatar {
+  width: 120rpx;
+  height: 120rpx;
+  background: #9CAF88;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 24rpx;
+}
+
+.avatar-text {
+  color: white;
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.user-details {
+  flex: 1;
+}
+
+.username {
+  display: block;
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 8rpx;
+}
+
+.user-subtitle {
+  font-size: 26rpx;
+  color: #999;
+}
+
+.section-title {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 24rpx;
+  padding-bottom: 12rpx;
+  border-bottom: 2rpx solid #9CAF88;
+}
+
+.setting-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24rpx 0;
+  border-bottom: 1rpx solid #f0f0f0;
+}
+
+.setting-item:last-child {
+  border-bottom: none;
+}
+
+.setting-label {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.setting-value {
+  display: flex;
+  align-items: center;
+}
+
+.setting-input {
+  text-align: right;
+  padding: 8rpx 12rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 6rpx;
+  font-size: 26rpx;
+  min-width: 120rpx;
+  margin-right: 8rpx;
+}
+
+.setting-picker {
+  min-width: 120rpx;
+  text-align: right;
+}
+
+.picker-text {
+  font-size: 26rpx;
+  color: #333;
+  padding: 8rpx 12rpx;
+  border: 1rpx solid #ddd;
+  border-radius: 6rpx;
+  background: #fff;
+}
+
+.unit {
+  font-size: 24rpx;
+  color: #999;
+}
+
+.bmi-info {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12rpx;
+}
+
+.bmi-label {
+  font-size: 28rpx;
+  color: #333;
+}
+
+.bmi-value {
+  font-size: 36rpx;
+  font-weight: bold;
+}
+
+.bmi-status {
+  font-size: 24rpx;
+  color: #999;
+  text-align: center;
+}
+
+.actions {
+  margin: 40rpx 0;
+  display: flex;
+  gap: 20rpx;
+}
+
+.actions button {
+  flex: 1;
+}
+
+.about {
+  text-align: center;
+}
+
+.about-title {
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 16rpx;
+}
+
+.about-text {
+  display: block;
+  font-size: 24rpx;
+  color: #999;
+  margin-bottom: 8rpx;
+  line-height: 1.5;
+}
