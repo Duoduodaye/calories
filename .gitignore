@@ -1,14 +1,7 @@
-# Windows
-[Dd]esktop.ini
-Thumbs.db
-$RECYCLE.BIN/
-
-# macOS
+# 微信小程序
+project.private.config.json
 .DS_Store
-.fseventsd
-.Spotlight-V100
-.TemporaryItems
-.Trashes
-
-# Node.js
 node_modules/
+
+# 开发工具生成的文件
+*.log
