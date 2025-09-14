@@ -20,7 +20,7 @@ Page({
     // 搜索相关
     searchKeyword: '',
     selectedCategory: '全部',
-    categories: ['全部', '主食', '蔬菜', '肉类', '蛋类', '豆类', '水果', '零食'],
+    categories: ['全部', '主食', '蔬菜', '肉类', '蛋类', '豆类', '水果', '零食', '中式菜品', '快餐', '甜点', '汤类'],
     exerciseCategories: ['全部', '有氧运动', '球类运动', '力量训练', '休闲运动', '日常活动'],
     
     // 食物数据
@@ -51,17 +51,38 @@ Page({
     // 判断记录类型
     const recordType = options.type === 'exercise' ? 'exercise' : 'food'
     
-    // 如果有传入的餐次类型，设置为默认选中
-    if (options.mealType && MEAL_TYPES[options.mealType.toUpperCase()]) {
-      this.setData({
-        selectedMeal: options.mealType
-      })
-    }
-    
     this.setData({
       recordType
     })
     
+    this.initPage()
+  },
+
+  onShow() {
+    // 页面显示时检查是否有存储的餐次类型
+    const storedMealType = wx.getStorageSync('selectedMealType')
+    const storedRecordType = wx.getStorageSync('recordType')
+    console.log('页面显示，检查存储的餐次类型:', storedMealType)
+    console.log('页面显示，检查存储的记录类型:', storedRecordType)
+    
+    if (storedMealType && MEAL_TYPES[storedMealType.toUpperCase()]) {
+      console.log('设置选中的餐次:', storedMealType)
+      this.setData({
+        selectedMeal: storedMealType,
+        recordType: 'food'
+      })
+      // 清除存储的类型，避免影响下次进入
+      wx.removeStorageSync('selectedMealType')
+    } else if (storedRecordType === 'exercise') {
+      console.log('设置为运动记录模式')
+      this.setData({
+        recordType: 'exercise'
+      })
+      // 清除存储的类型
+      wx.removeStorageSync('recordType')
+    }
+    
+    // 重新初始化页面数据
     this.initPage()
   },
 
@@ -81,7 +102,8 @@ Page({
       const allFoods = DataManager.getFoodDatabase()
       this.setData({
         allFoods,
-        filteredFoods: allFoods
+        filteredFoods: allFoods,
+        selectedCategory: '全部'
       })
     }
   },

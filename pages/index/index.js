@@ -69,6 +69,8 @@ Page({
     const mealData = this.generateMealData(dayRecords)
     const exerciseData = this.generateExerciseData(exerciseRecords)
     
+    console.log('setData - mealData:', mealData)
+    
     this.setData({
       todayCalories,
       todayExerciseCalories,
@@ -79,10 +81,16 @@ Page({
       mealData,
       exerciseData
     })
+    
+    console.log('setData完成，当前data.mealData:', this.data.mealData)
   },
 
   // 生成餐次数据
   generateMealData(dayRecords) {
+    console.log('generateMealData - dayRecords:', dayRecords)
+    console.log('MEAL_TYPES:', MEAL_TYPES)
+    console.log('MEAL_NAMES:', MEAL_NAMES)
+    
     const meals = [
       { type: MEAL_TYPES.BREAKFAST, name: MEAL_NAMES[MEAL_TYPES.BREAKFAST], isMainMeal: true },
       { type: MEAL_TYPES.MORNING_SNACK, name: MEAL_NAMES[MEAL_TYPES.MORNING_SNACK], isMainMeal: false },
@@ -92,7 +100,7 @@ Page({
       { type: MEAL_TYPES.LATE_SNACK, name: MEAL_NAMES[MEAL_TYPES.LATE_SNACK], isMainMeal: false }
     ]
     
-    return meals.map(meal => {
+    const result = meals.map(meal => {
       const mealRecords = dayRecords[meal.type] || []
       const calories = mealRecords.reduce((total, record) => total + record.calories, 0)
       
@@ -104,13 +112,30 @@ Page({
         foods: mealRecords.slice(0, 3) // 最多显示3个食物
       }
     })
+    
+    console.log('generateMealData - result:', result)
+    return result
   },
 
   // 点击餐次卡片，跳转到记录页面
   navigateToRecord(e) {
+    console.log('点击餐次卡片', e)
     const mealType = e.currentTarget.dataset.meal
-    wx.navigateTo({
-      url: `/pages/record/record?mealType=${mealType}`
+    console.log('餐次类型:', mealType)
+    
+    // 由于record页面是tabBar页面，不能用navigateTo，需要用switchTab
+    // 先存储餐次类型到全局变量或storage
+    wx.setStorageSync('selectedMealType', mealType)
+    console.log('已存储餐次类型到storage:', mealType)
+    
+    wx.switchTab({
+      url: '/pages/record/record',
+      success: (res) => {
+        console.log('切换到记录页面成功', res)
+      },
+      fail: (err) => {
+        console.error('切换到记录页面失败', err)
+      }
     })
   },
 
@@ -121,15 +146,35 @@ Page({
 
   // 快速添加
   quickAdd() {
-    wx.navigateTo({
-      url: '/pages/record/record'
+    console.log('点击快速记录按钮')
+    // 清除之前存储的餐次类型，使用默认行为
+    wx.removeStorageSync('selectedMealType')
+    
+    wx.switchTab({
+      url: '/pages/record/record',
+      success: (res) => {
+        console.log('快速记录页面跳转成功', res)
+      },
+      fail: (err) => {
+        console.error('快速记录页面跳转失败', err)
+      }
     })
   },
 
   // 添加运动记录
   addExercise() {
-    wx.navigateTo({
-      url: '/pages/record/record?type=exercise'
+    console.log('点击添加运动记录')
+    // 存储运动记录标识
+    wx.setStorageSync('recordType', 'exercise')
+    
+    wx.switchTab({
+      url: '/pages/record/record',
+      success: (res) => {
+        console.log('切换到运动记录页面成功', res)
+      },
+      fail: (err) => {
+        console.error('切换到运动记录页面失败', err)
+      }
     })
   },
 

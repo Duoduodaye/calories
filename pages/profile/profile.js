@@ -42,8 +42,9 @@ Page({
 
   // 每日目标输入
   onDailyGoalInput(e) {
+    const value = e.detail.value
     this.setData({
-      dailyGoal: parseInt(e.detail.value) || 2000
+      dailyGoal: value === '' ? '' : (parseInt(value) || '')
     })
   },
 
@@ -120,7 +121,7 @@ Page({
     const { dailyGoal, age, height, weight, genderIndex, genderOptions } = this.data
     
     const profile = {
-      dailyCalorieGoal: dailyGoal,
+      dailyCalorieGoal: parseInt(dailyGoal) || 2000,
       age: parseInt(age) || 0,
       height: parseInt(height) || 0,
       weight: parseInt(weight) || 0,
