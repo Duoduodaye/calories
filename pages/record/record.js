@@ -246,12 +246,17 @@ Page({
   // 快速选择重量
   selectQuickWeight(e) {
     const weight = e.currentTarget.dataset.weight
+    console.log('快速选择重量:', weight, '类型:', typeof weight)
+    
     this.setData({
       inputWeight: weight.toString()
+    }, () => {
+      console.log('设置后的inputWeight:', this.data.inputWeight)
     })
     
     if (this.data.selectedFood) {
       const nutrition = DataManager.calculateNutrition(this.data.selectedFood, weight)
+      console.log('计算的营养信息:', nutrition)
       this.setData({
         calculatedNutrition: nutrition
       })
@@ -373,7 +378,20 @@ Page({
     const { selectedFood, selectedMeal, inputWeight } = this.data
     const weight = parseFloat(inputWeight)
     
+    console.log('确认添加食物:', {
+      selectedFood: selectedFood?.name,
+      selectedMeal,
+      inputWeight,
+      parsedWeight: weight,
+      inputWeightType: typeof inputWeight
+    })
+    
     if (!selectedFood || !weight || weight <= 0) {
+      console.log('验证失败:', {
+        hasSelectedFood: !!selectedFood,
+        hasWeight: !!weight,
+        weightValue: weight
+      })
       wx.showToast({
         title: '请输入正确的重量',
         icon: 'none'
