@@ -133,7 +133,81 @@ const FOOD_DATABASE = [
   { id: 87, name: '番茄鸡蛋汤', category: '汤类', calories: 28, protein: 2.1, fat: 1.5, carbs: 2.8 },
   { id: 88, name: '酸辣汤', category: '汤类', calories: 45, protein: 3.5, fat: 2.2, carbs: 4.8 },
   { id: 89, name: '银耳莲子汤', category: '汤类', calories: 35, protein: 1.2, fat: 0.1, carbs: 8.5 },
-  { id: 90, name: '鸡汤', category: '汤类', calories: 68, protein: 9.2, fat: 2.8, carbs: 1.5 }
+  { id: 90, name: '鸡汤', category: '汤类', calories: 68, protein: 9.2, fat: 2.8, carbs: 1.5 },
+  
+  // 更多水果类
+  { id: 91, name: '牛油果', category: '水果', calories: 160, protein: 2.0, fat: 14.7, carbs: 8.5 },
+  { id: 92, name: '芒果', category: '水果', calories: 60, protein: 0.8, fat: 0.4, carbs: 15.0 },
+  { id: 93, name: '菠萝', category: '水果', calories: 50, protein: 0.5, fat: 0.1, carbs: 13.1 },
+  { id: 94, name: '柚子', category: '水果', calories: 42, protein: 0.8, fat: 0.2, carbs: 10.7 },
+  { id: 95, name: '樱桃', category: '水果', calories: 63, protein: 1.1, fat: 0.2, carbs: 16.0 },
+  { id: 96, name: '蓝莓', category: '水果', calories: 57, protein: 0.7, fat: 0.3, carbs: 14.5 },
+  { id: 97, name: '火龙果', category: '水果', calories: 51, protein: 1.1, fat: 0.2, carbs: 13.3 },
+  { id: 98, name: '榴莲', category: '水果', calories: 147, protein: 1.5, fat: 5.3, carbs: 27.1 },
+  { id: 99, name: '椰子肉', category: '水果', calories: 354, protein: 3.3, fat: 33.5, carbs: 15.2 },
+  { id: 100, name: '石榴', category: '水果', calories: 83, protein: 1.7, fat: 1.2, carbs: 18.7 },
+  
+  // 坚果类
+  { id: 101, name: '核桃', category: '坚果', calories: 654, protein: 15.2, fat: 65.2, carbs: 13.7 },
+  { id: 102, name: '杏仁', category: '坚果', calories: 579, protein: 21.2, fat: 49.9, carbs: 21.7 },
+  { id: 103, name: '花生', category: '坚果', calories: 567, protein: 25.8, fat: 49.2, carbs: 16.1 },
+  { id: 104, name: '腰果', category: '坚果', calories: 553, protein: 18.2, fat: 43.8, carbs: 30.2 },
+  { id: 105, name: '开心果', category: '坚果', calories: 560, protein: 20.2, fat: 45.3, carbs: 28.0 },
+  { id: 106, name: '榛子', category: '坚果', calories: 628, protein: 14.9, fat: 60.8, carbs: 16.7 },
+  { id: 107, name: '松子', category: '坚果', calories: 673, protein: 13.7, fat: 68.4, carbs: 13.1 },
+  { id: 108, name: '巴旦木', category: '坚果', calories: 578, protein: 21.3, fat: 49.4, carbs: 22.0 },
+  { id: 109, name: '瓜子', category: '坚果', calories: 606, protein: 19.1, fat: 53.4, carbs: 13.1 },
+  { id: 110, name: '夏威夷果', category: '坚果', calories: 718, protein: 7.9, fat: 75.8, carbs: 13.8 },
+  
+  // 海鲜类
+  { id: 111, name: '大闸蟹', category: '海鲜', calories: 103, protein: 17.5, fat: 2.6, carbs: 2.3 },
+  { id: 112, name: '小龙虾', category: '海鲜', calories: 93, protein: 18.9, fat: 1.2, carbs: 1.3 },
+  { id: 113, name: '扇贝', category: '海鲜', calories: 88, protein: 16.7, fat: 0.6, carbs: 4.6 },
+  { id: 114, name: '生蚝', category: '海鲜', calories: 68, protein: 9.0, fat: 2.3, carbs: 3.9 },
+  { id: 115, name: '鲍鱼', category: '海鲜', calories: 84, protein: 12.6, fat: 0.8, carbs: 6.0 },
+  { id: 116, name: '海参', category: '海鲜', calories: 78, protein: 16.5, fat: 0.2, carbs: 2.5 },
+  { id: 117, name: '龙虾', category: '海鲜', calories: 90, protein: 18.8, fat: 0.9, carbs: 1.3 },
+  { id: 118, name: '蛤蜊', category: '海鲜', calories: 74, protein: 12.8, fat: 0.9, carbs: 2.6 },
+  { id: 119, name: '鱿鱼', category: '海鲜', calories: 92, protein: 15.6, fat: 1.4, carbs: 3.1 },
+  { id: 120, name: '带鱼', category: '海鲜', calories: 127, protein: 17.7, fat: 5.6, carbs: 0 },
+  
+  // 各类米粉面条
+  { id: 121, name: '桂林米粉', category: '主食', calories: 345, protein: 7.4, fat: 0.7, carbs: 77.2 },
+  { id: 122, name: '螺蛳粉', category: '主食', calories: 125, protein: 4.2, fat: 2.8, carbs: 22.5 },
+  { id: 123, name: '过桥米线', category: '主食', calories: 118, protein: 3.8, fat: 1.2, carbs: 24.1 },
+  { id: 124, name: '沙河粉', category: '主食', calories: 109, protein: 1.9, fat: 0.3, carbs: 25.1 },
+  { id: 125, name: '河粉', category: '主食', calories: 109, protein: 1.9, fat: 0.3, carbs: 25.1 },
+  { id: 126, name: '粉丝', category: '主食', calories: 337, protein: 0.4, fat: 0.1, carbs: 84.2 },
+  { id: 127, name: '粉条', category: '主食', calories: 337, protein: 0.4, fat: 0.1, carbs: 84.2 },
+  { id: 128, name: '凉皮', category: '主食', calories: 117, protein: 3.8, fat: 0.5, carbs: 25.1 },
+  { id: 129, name: '拉面', category: '主食', calories: 137, protein: 4.5, fat: 0.5, carbs: 27.4 },
+  { id: 130, name: '刀削面', category: '主食', calories: 137, protein: 4.5, fat: 0.5, carbs: 27.4 },
+  
+  // 奶制品类
+  { id: 131, name: '牛奶', category: '奶制品', calories: 54, protein: 3.0, fat: 3.2, carbs: 3.4 },
+  { id: 132, name: '酸奶', category: '奶制品', calories: 72, protein: 2.5, fat: 2.7, carbs: 9.3 },
+  { id: 133, name: '奶酪', category: '奶制品', calories: 328, protein: 25.0, fat: 27.5, carbs: 2.4 },
+  { id: 134, name: '黄油', category: '奶制品', calories: 717, protein: 1.4, fat: 81.1, carbs: 0.1 },
+  { id: 135, name: '炼乳', category: '奶制品', calories: 321, protein: 7.9, fat: 8.7, carbs: 56.3 },
+  { id: 136, name: '奶粉', category: '奶制品', calories: 478, protein: 18.5, fat: 20.9, carbs: 54.6 },
+  
+  // 谷物杂粮类
+  { id: 137, name: '黑米', category: '主食', calories: 341, protein: 8.3, fat: 2.5, carbs: 72.2 },
+  { id: 138, name: '糙米', category: '主食', calories: 332, protein: 7.7, fat: 1.8, carbs: 76.0 },
+  { id: 139, name: '薏米', category: '主食', calories: 357, protein: 12.8, fat: 3.3, carbs: 71.1 },
+  { id: 140, name: '藜麦', category: '主食', calories: 368, protein: 14.1, fat: 6.1, carbs: 64.2 },
+  { id: 141, name: '荞麦', category: '主食', calories: 337, protein: 11.7, fat: 2.5, carbs: 73.0 },
+  { id: 142, name: '高粱', category: '主食', calories: 351, protein: 8.4, fat: 3.4, carbs: 74.8 },
+  { id: 143, name: '小米', category: '主食', calories: 358, protein: 9.0, fat: 3.1, carbs: 75.1 },
+  
+  // 菌菇类
+  { id: 144, name: '香菇', category: '蔬菜', calories: 19, protein: 2.2, fat: 0.3, carbs: 5.2 },
+  { id: 145, name: '金针菇', category: '蔬菜', calories: 26, protein: 2.4, fat: 0.2, carbs: 6.0 },
+  { id: 146, name: '平菇', category: '蔬菜', calories: 20, protein: 1.9, fat: 0.1, carbs: 4.6 },
+  { id: 147, name: '杏鲍菇', category: '蔬菜', calories: 31, protein: 1.3, fat: 0.1, carbs: 7.3 },
+  { id: 148, name: '茶树菇', category: '蔬菜', calories: 279, protein: 23.1, fat: 2.4, carbs: 45.7 },
+  { id: 149, name: '木耳', category: '蔬菜', calories: 21, protein: 1.5, fat: 0.2, carbs: 6.0 },
+  { id: 150, name: '银耳', category: '蔬菜', calories: 200, protein: 10.0, fat: 1.4, carbs: 67.3 }
 ]
 
 // 运动数据库（每分钟消耗热量，基于70kg成人）
