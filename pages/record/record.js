@@ -206,11 +206,22 @@ Page({
   // 选择食物
   selectFood(e) {
     const food = e.currentTarget.dataset.food
+    console.log('选择食物:', food?.name)
+    
+    const defaultNutrition = DataManager.calculateNutrition(food, 100)
+    console.log('默认100g营养信息:', defaultNutrition)
+    
     this.setData({
       selectedFood: food,
       showWeightModal: true,
       inputWeight: '100', // 默认100g
-      calculatedNutrition: DataManager.calculateNutrition(food, 100)
+      calculatedNutrition: defaultNutrition
+    }, () => {
+      console.log('选择食物后的状态:', {
+        selectedFood: this.data.selectedFood?.name,
+        inputWeight: this.data.inputWeight,
+        showWeightModal: this.data.showWeightModal
+      })
     })
   },
 
@@ -226,13 +237,22 @@ Page({
 
   // 重量输入
   onWeightInput(e) {
-    const weight = parseFloat(e.detail.value) || 0
+    const inputValue = e.detail.value
+    const weight = parseFloat(inputValue) || 0
+    
+    console.log('重量输入:', {
+      inputValue,
+      weight,
+      selectedFood: this.data.selectedFood?.name
+    })
+    
     this.setData({
-      inputWeight: e.detail.value
+      inputWeight: inputValue
     })
     
     if (weight > 0 && this.data.selectedFood) {
       const nutrition = DataManager.calculateNutrition(this.data.selectedFood, weight)
+      console.log('输入重量计算营养:', nutrition)
       this.setData({
         calculatedNutrition: nutrition
       })
@@ -245,22 +265,25 @@ Page({
 
   // 快速选择重量
   selectQuickWeight(e) {
-    const weight = e.currentTarget.dataset.weight
-    console.log('快速选择重量:', weight, '类型:', typeof weight)
+    const weight = parseInt(e.currentTarget.dataset.weight)
+    console.log('快速选择重量:', weight, '类型:', typeof weight, '原始数据:', e.currentTarget.dataset.weight)
     
+    // 强制更新界面
     this.setData({
-      inputWeight: weight.toString()
+      inputWeight: weight.toString(),
+      calculatedNutrition: null
     }, () => {
-      console.log('设置后的inputWeight:', this.data.inputWeight)
+      console.log('快速选择设置后的inputWeight:', this.data.inputWeight)
+      
+      // 重新计算营养信息
+      if (this.data.selectedFood && weight > 0) {
+        const nutrition = DataManager.calculateNutrition(this.data.selectedFood, weight)
+        console.log('快速选择计算的营养信息:', nutrition)
+        this.setData({
+          calculatedNutrition: nutrition
+        })
+      }
     })
-    
-    if (this.data.selectedFood) {
-      const nutrition = DataManager.calculateNutrition(this.data.selectedFood, weight)
-      console.log('计算的营养信息:', nutrition)
-      this.setData({
-        calculatedNutrition: nutrition
-      })
-    }
   },
 
   // 选择运动
