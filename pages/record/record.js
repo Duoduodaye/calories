@@ -235,6 +235,12 @@ Page({
     })
   },
 
+  // 阻止事件冒泡
+  stopPropagation() {
+    // 阻止事件冒泡，防止点击输入框时关闭模态框
+    console.log('阻止事件冒泡')
+  },
+
   // 重量输入
   onWeightInput(e) {
     const inputValue = e.detail.value

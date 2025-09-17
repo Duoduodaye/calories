@@ -110,7 +110,7 @@
 
 <!-- 食物重量输入弹窗 -->
 <view wx:if="{{ showWeightModal }}" class="modal-overlay" bindtap="closeWeightModal">
-  <view class="modal-content" catchtap="">
+  <view class="modal-content" catchtap="stopPropagation">
     <view class="modal-header">
       <text class="modal-title">添加 {{ selectedFood.name }}</text>
       <button class="modal-close" bindtap="closeWeightModal">×</button>
@@ -121,21 +121,22 @@
         <text class="food-calories-per-100g">{{ selectedFood.calories }}千卡/100g</text>
       </view>
       
-      <view class="weight-input">
+      <view class="weight-input" catchtap="stopPropagation">
         <text class="input-label">重量（克）</text>
         <input class="input" 
                type="number" 
                placeholder="请输入重量" 
                value="{{ inputWeight }}" 
-               bindinput="onWeightInput" />
+               bindinput="onWeightInput" 
+               catchtap="stopPropagation" />
       </view>
       
-      <view class="quick-weights">
+      <view class="quick-weights" catchtap="stopPropagation">
         <text class="input-label">快速选择</text>
         <view class="weight-buttons">
           <button wx:for="{{ quickWeights }}" wx:key="*this" 
                   class="btn-secondary weight-btn" 
-                  bindtap="selectQuickWeight" 
+                  catchtap="selectQuickWeight" 
                   data-weight="{{ item }}">{{ item }}g</button>
         </view>
       </view>
@@ -172,7 +173,7 @@
 
 <!-- 运动时长输入弹窗 -->
 <view wx:if="{{ showExerciseModal }}" class="modal-overlay" bindtap="closeExerciseModal">
-  <view class="modal-content" catchtap="">
+  <view class="modal-content" catchtap="stopPropagation">
     <view class="modal-header">
       <text class="modal-title">{{ selectedExercise.icon }} {{ selectedExercise.name }}</text>
       <button class="modal-close" bindtap="closeExerciseModal">×</button>
@@ -184,21 +185,22 @@
         <text class="exercise-category-label">{{ selectedExercise.category }}</text>
       </view>
       
-      <view class="duration-input">
+      <view class="duration-input" catchtap="stopPropagation">
         <text class="input-label">运动时长（分钟）</text>
         <input class="input" 
                type="number" 
                placeholder="请输入时长" 
                value="{{ inputDuration }}" 
-               bindinput="onDurationInput" />
+               bindinput="onDurationInput" 
+               catchtap="stopPropagation" />
       </view>
       
-      <view class="quick-durations">
+      <view class="quick-durations" catchtap="stopPropagation">
         <text class="input-label">快速选择</text>
         <view class="duration-buttons">
           <button wx:for="{{ quickDurations }}" wx:key="*this" 
                   class="btn-secondary duration-btn" 
-                  bindtap="selectQuickDuration" 
+                  catchtap="selectQuickDuration" 
                   data-duration="{{ item }}">{{ item }}分钟</button>
         </view>
       </view>
